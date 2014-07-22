@@ -5,7 +5,6 @@ import re
 
 from django.conf import settings
 from django.db import models
-from django.db import transaction
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -89,7 +88,6 @@ class RegistrationManager(models.Manager):
             registration_profile.send_activation_email(site)
 
         return new_user
-    create_inactive_user = transaction.commit_on_success(create_inactive_user)
 
     def create_profile(self, user):
         """
