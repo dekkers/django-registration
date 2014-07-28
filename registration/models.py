@@ -4,6 +4,7 @@ import random
 import re
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import python_2_unicode_compatible
@@ -77,7 +78,7 @@ class RegistrationManager(models.Manager):
         user. To disable this, pass ``send_email=False``.
         
         """
-        from django.contrib.auth.models import User
+        User = get_user_model()
         new_user = User.objects.create_user(username, email, password)
         new_user.is_active = False
         new_user.save()
@@ -147,7 +148,7 @@ class RegistrationManager(models.Manager):
         be deleted.
         
         """
-        from django.contrib.auth.models import User
+        User = get_user_model()
         for profile in self.all():
             try:
                 if profile.activation_key_expired():
